@@ -1,4 +1,6 @@
-# react-render-defender
+# React Render Defender
+
+<img src='http://i.imgur.com/XSjJMKR.png' />
 
 See which React components are rendering when they shouldn't.
 
