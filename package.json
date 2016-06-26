@@ -30,6 +30,7 @@
   "main": "lib/index.js",
   "name": "react-render-defender",
   "optionalDependencies": {},
+  "homepage": "https://github.com/eyaleizenberg/react-render-defender",
   "scripts": {
     "build": "babel --presets es2015 src --out-dir lib",
     "clean": "rimraf lib",
