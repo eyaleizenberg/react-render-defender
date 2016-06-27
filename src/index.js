@@ -7,7 +7,7 @@ const comparePropsAndState = (component, prevProps, prevState) => {
   }
 
   for (let key in prevState) {
-    if (component.state[key] !== prevState[key]) prevState.push(key)
+    if (component.state[key] !== prevState[key]) stateChanges.push(key)
   }
 
   return { propChanges, stateChanges };
