@@ -38,7 +38,7 @@ export default function logAllUpdates() {
     ReactClass.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
       const newRenderTimeStamp = new Date();
       const timeRenderDiff = newRenderTimeStamp - this.previousRenderTimeStamp;
-      const threshold = this.warningThreshold || settings[this.constructor.name] || 200
+      const threshold = settings[this.constructor.name] || 200
 
       if(!settings.quiet_mode) {
         if (timeRenderDiff < threshold) {
