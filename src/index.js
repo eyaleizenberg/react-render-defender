@@ -3,7 +3,7 @@ const comparePropsAndState = (component, prevProps, prevState) => {
   const getCustomSettings = () => {
     let customSettings = {} ;
     try {
-      customSettings = require('../../../rdefender.json');
+      customSettings = require(process.env.ROOT+'/rdefender.json');
     } catch(err) {}
     return customSettings;
   }
