@@ -1,4 +1,14 @@
 const comparePropsAndState = (component, prevProps, prevState) => {
+
+  const getCustomSettings = () => {
+    let customSettings = {} ;
+    try {
+      customSettings = require(process.env.ROOT+'/rdefender.json');
+    } catch(err) {}
+    return customSettings;
+  }
+
+  const customSettings = getCustomSettings();
   const propChanges = [];
   const stateChanges = [];
 
@@ -28,14 +38,17 @@ export default function logAllUpdates() {
     ReactClass.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
       const newRenderTimeStamp = new Date();
       const timeRenderDiff = newRenderTimeStamp - this.previousRenderTimeStamp;
-      const threshold = this.warningThreshold || 200
-      if (timeRenderDiff < threshold) {
-        const diff = comparePropsAndState(this, prevProps, prevState);
-        console.groupCollapsed(`The component ${this.constructor.name} rendered twice in less than ${threshold}ms!`);
-        console.info('Time between renders:', timeRenderDiff);
-        console.info('Props key changes:', diff.propChanges);
-        console.info('State key changes:', diff.stateChanges);
-        console.groupEnd();
+      const threshold = settings[this.constructor.name] || 200
+
+      if(!settings.quiet_mode) {
+        if (timeRenderDiff < threshold) {
+          const diff = comparePropsAndState(this, prevProps, prevState);
+          console.groupCollapsed(`The component ${this.constructor.name} rendered twice in less than ${threshold}ms!`);
+          console.info('Time between renders:', timeRenderDiff);
+          console.info('Props key changes:', diff.propChanges);
+          console.info('State key changes:', diff.stateChanges);
+          console.groupEnd();
+        }
       }
 
       this.previousRenderTimeStamp = newRenderTimeStamp;
