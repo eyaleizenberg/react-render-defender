@@ -1,14 +1,14 @@
+const getCustomSettings = () => {
+  let opts = {} ;
+  try {
+    return opts = require(process.env.ROOT+'/rdefender.json');
+  } catch(err) {}
+  return opts;
+}
+
+const customSettings = getCustomSettings();
+
 const comparePropsAndState = (component, prevProps, prevState) => {
-
-  const getCustomSettings = () => {
-    let customSettings = {} ;
-    try {
-      customSettings = require(process.env.ROOT+'/rdefender.json');
-    } catch(err) {}
-    return customSettings;
-  }
-
-  const customSettings = getCustomSettings();
   const propChanges = [];
   const stateChanges = [];
 
@@ -38,9 +38,9 @@ export default function logAllUpdates() {
     ReactClass.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
       const newRenderTimeStamp = new Date();
       const timeRenderDiff = newRenderTimeStamp - this.previousRenderTimeStamp;
-      const threshold = settings[this.constructor.name] || 200
+      const threshold = customSettings[this.constructor.name] || 200
 
-      if(!settings.quiet_mode) {
+      if(!customSettings.quiet_mode) {
         if (timeRenderDiff < threshold) {
           const diff = comparePropsAndState(this, prevProps, prevState);
           console.groupCollapsed(`The component ${this.constructor.name} rendered twice in less than ${threshold}ms!`);
